@@ -21,6 +21,10 @@ std::string day_to_name(int day_number)
             "Friday",
             "Saturday",
             "Sunday"};
+    
+    if (day_number >= 1 && day_number <= 7){
+        return days[day_number - 1]; // -1 is to adjust for starting at 0
+    }
 
     return invalid;
 }
@@ -33,6 +37,10 @@ Use print_swap to check your implementation.
 */
 void swap(int *x, int *y)
 {
+    int temp = *x; //Store the value pointed to by x in temp
+    *x = *y; //Copy the value pointed to by y into the location pointed to by x
+    *y = temp; // Copy the original value of x (stored in temp) into the location pointed to by y.
+
 }
 
 void print_swap()
@@ -43,6 +51,7 @@ void print_swap()
     std::cout << "After swap: x = " << x << ", y = " << y << '\n';
 }
 
+
 /*
 Implement the function swap_in_place(int* x, int* y), which performs the same
 operation as swap(), but does not declare any new variables to achieve this.
@@ -51,6 +60,9 @@ Use print_swap_in_place to check your implementation.
 */
 void swap_in_place(int *x, int *y)
 {
+    *x = *x + *y;
+    *y = *x - *y;
+    *x = *x - *y;
 }
 
 void print_swap_in_place()
@@ -70,6 +82,11 @@ Use print_add_vector to check your implementation.
 */
 void add_vector(int *a, int *b, int *result, int size)
 {
+     for (size_t i =0 ; i < size; ++i){
+    
+        result[i] = a[i] + b[i];
+     }
+    
 }
 
 void print_add_vector()
@@ -96,6 +113,7 @@ Use print_swap_vector to check your implementation.
 */
 void swap_vector(int **a, int **b)
 {
+    std::swap(*a,*b);
 }
 
 void print_swap_vector()
@@ -131,6 +149,14 @@ result_i_j = sum(a_i_k * b_k_j) for k = 0 to k = b_rows - 1
 */
 void matrix_multiplication(int *a, int *b, size_t a_rows, size_t a_cols, size_t b_cols, int *result)
 {
+    for (size_t i = 0 ; i < a_rows ; ++i){ // Iterate over each row of 'a'
+        for (size_t j = 0; j < b_cols; ++j) { // Iterate over each column of 'b'
+            result[i * b_cols + j] = 0;  // Initialize result element to 0
+            for (size_t k = 0; k < a_cols; ++k) { // Sum over the shared dimension (a_cols == b_rows)
+                result[i * b_cols + j] += a[i * a_cols + k] * b[k * b_cols + j];
+            }
+        }
+     }
 }
 
 void print_matrix_multiplication()
